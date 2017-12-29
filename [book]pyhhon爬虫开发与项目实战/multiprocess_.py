@@ -6,8 +6,6 @@ Created on 4:54 PM 4/22/2017
 
 多进程编程实践，使用multiprocessing模块
 """
-
-
 # Python中的GIL限制了Python多线程并行对多核CPU的利用
 
 import os
