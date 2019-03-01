@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<!-- saved from url=(0056)https://www.shiyanlou.com/courses/756/labs/2521/document -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style class="vjs-styles-defaults">
+      .video-js {
+        width: 300px;
+        height: 150px;
+      }
+
+      .vjs-fluid {
+        padding-top: 56.25%
+      }
+    </style>
+        
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta http-equiv="Cache-Control" content="o-transform">
+        <meta http-equiv="Cache-Control" content="no-siteapp">
+        <meta name="csrf-token" content="IjY2YWNjNTRkZjAwN2YzNzVkZGU5NTMxYWM5ZGFmZTMwMzllYzQ5YjEi.D1oVmg.2ym5c_di0dAJhZJOKG-MClbbj84">
+        
+            
+                <title>使用 Python 定制词云 - 实验楼</title>
+            
+        
+
+        
+        <meta content="实验楼是国内领先的IT在线编程及在线实训学习平台，专业导师提供精选的实践项目，创新的技术使得学习者无需配置繁琐的本地环境，随时在线流畅使用。以就业为导向，提供编程、运维、测试、云计算、大数据、数据库等全面的IT技术动手实践环境，提供Linux、Python、Java、C语言、Node.js、Hadoop、PHP、Docker、Git、R、SQL、MongoDB、Redis、Swift、Spark等千门热门课程。" name="description">
+        <meta content="实验楼,IT培训,IT教育,编程,在线编程,Linux,Linux教程,Linux操作系统,Python,Python教程,Python基础教程,Java,Java编程,C语言,大数据,Node.js,Hadoop,PHP,Docker,Git,R,SQL,MongoDB,Redis,Swift,Spark,在线实验,IT在线教育,编程入门,项目训练,项目实践,webIDE,软件开发" name="keywords">
+        
+        <meta content="实验楼，琛石科技" name="author">
+
+        <link rel="shortcut icon" type="image/x-icon" href="https://static.shiyanlou.com/favicon.ico">
+        <link rel="stylesheet" href="./使用 Python 定制词云 - 实验楼_files/fontawesome-all.min.css">
+        <link rel="stylesheet" href="./使用 Python 定制词云 - 实验楼_files/font-awesome.min.css">
+        <link rel="stylesheet" href="./使用 Python 定制词云 - 实验楼_files/bootstrap.min.css">
+        <link rel="stylesheet" href="./使用 Python 定制词云 - 实验楼_files/bootstrap-switch.min.css">
+        <link rel="stylesheet" href="./使用 Python 定制词云 - 实验楼_files/bootstrap-tour.min.css">
+        <link rel="stylesheet" href="./使用 Python 定制词云 - 实验楼_files/bootstrap-table.min.css">
+        <link rel="stylesheet" href="./使用 Python 定制词云 - 实验楼_files/katex.min.css">
+        <link rel="stylesheet" href="./使用 Python 定制词云 - 实验楼_files/video-js.min.css">
+        <link rel="stylesheet" href="./使用 Python 定制词云 - 实验楼_files/monokai-sublime.min.css">
+        <link rel="stylesheet" href="./使用 Python 定制词云 - 实验楼_files/calendar-heatmap.css">
+        <link rel="stylesheet" href="./使用 Python 定制词云 - 实验楼_files/styles.css">
+        <link rel="stylesheet" href="./使用 Python 定制词云 - 实验楼_files/syl-styles.css">
+
+        
+<style>
+    .layout-fullscreen {
+        margin-top: 0;
+    }
+    .labdoc-header {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 18px;
+        color: #666;
+        background: #fff;
+        font-size: 16px;
+        border-bottom: solid 1px #eee;
+        z-index: 10;
+    }
+    .labdoc-header a {
+        color: #666;
+    }
+    .labdoc-header a:hover,
+    .labdoc-header a:focus {
+        color: #08bf91;;
+        text-decoration: none;
+    }
+    .labdoc-nav {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 20%;
+        height: calc(100% - 60px);
+        padding: 0 10px;
+        background-color: #f7f7f7;
+        background-image: url(https://static.shiyanlou.com/img/logo-water-mark.png);
+        background-repeat: no-repeat;
+        background-position: 50% calc(100% - 20px);
+        overflow: auto;
+    }
+    .labdoc-nav-content {
+        margin-left: 10px;
+    }
+    .labdoc-nav h2 {
+        padding: 5px 0;
+        font-size: 16px;
+    }
+    .labdoc-nav h3 {
+        padding: 5px 0;
+        margin-left: 20px;
+        font-size: 14px;
+    }
+    .labdoc-nav h2 a,
+    .labdoc-nav h3 a {
+        color: #666;
+        text-decoration: none;
+    }
+    .labdoc-nav h2:hover a,
+    .labdoc-nav h2:focus a,
+    .labdoc-nav h3:hover a,
+    .labdoc-nav h3:focus a,
+    .labdoc-nav h2.active a,
+    .labdoc-nav h3.active a {
+        color: #08bf91;
+        text-decoration: none;
+    }
+    .labdoc-content-container {
+        float: right;
+        width: 100%;
+        padding: 0;
+        margin-top: 60px;
+    }
+    .labdoc-content {
+        padding: 0 10px 20px;
+        background: #fff;
+    }
+    .labdoc-copyright {
+        margin-top: 30px;
+        color: #999;
+        font-size: 12px;
+        font-style:italic;
+    }
+    .lab-btns {
+        display: none;
+        position: fixed;
+        top: 30%;
+        right: 10px;
+        width: 56px;
+        text-align: center;
+        z-index: 10;
+    }
+    .lab-btns div {
+        margin-bottom: 4px;
+        background: #fff;
+        border-radius: 5px;
+        box-shadow: 0 2px 8px 0 rgba(0,0,0,0.20);
+    }
+    .lab-btns a {
+        display: block;
+        padding: 0 2px;
+        font-size: 14px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .lab-btns a:hover,
+    .lab-btns a:focus {
+        text-decoration: none;
+    }
+
+    .lab-btns img {
+        display: inline-block;
+        border-radius: 5px;
+    }
+    .lab-btns a img {
+        padding: 11px 0;
+    }
+    .lab-btns span {
+        display: none;
+        color: #08bf91;
+    }
+    .lab-btns a:hover img {
+        display: none;
+    }
+    .lab-btns a:hover span {
+        display: block;
+        width: 52px;
+        height: 52px;
+        padding-top: 8px;
+        text-align: center;
+    }
+    .labinfo {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 20%;
+        padding: 5px 20px;
+        background: cornsilk;
+        z-index: 10;
+    }
+    .labinfo-header {
+        margin-bottom: 20px;
+    }
+    .labinfo-body div {
+        margin: 5px 0;
+        font-size: 16px;
+    }
+    .labinfo-body div {
+        margin: 10px 0;
+        font-size: 16px;
+    }
+    .labinfo-body a {
+        margin: 10px 0;
+    }
+    .left-time a {
+        position: relative;
+        bottom: 1px;
+        padding: 4px 10px;
+        margin-left: 4px;
+        color: #fff;
+        background: #f66;
+        font-size: 14px;
+    }
+    .left-time a:hover,
+    .left-time a:focus {
+        color: #fff;
+    }
+    .labdoc-page,
+    .labdoc-page:focus,
+    .labdoc-page:hover {
+        padding: 20px;
+        color: #08bf91;
+        font-size: 16px;
+        text-decoration: none;
+    }
+    .course-warning {
+        width: 40%;
+        margin: 10px auto;
+        font-size: 18px;
+        text-align: center;
+    }
+    @media (min-width: 768px) {
+        .labdoc-nav,
+        .lab-btns {
+            display: block;
+        }
+        .labdoc-content-container {
+            width: 80%;
+        }
+        .labdoc-content {
+            padding: 0 100px 20px;
+        }
+    }
+</style>
+
+
+        
+        
+    <style id="ace_editor.css">.ace_editor {position: relative;overflow: hidden;font: 12px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;direction: ltr;text-align: left;}.ace_scroller {position: absolute;overflow: hidden;top: 0;bottom: 0;background-color: inherit;-ms-user-select: none;-moz-user-select: none;-webkit-user-select: none;user-select: none;cursor: text;}.ace_content {position: absolute;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;min-width: 100%;}.ace_dragging .ace_scroller:before{position: absolute;top: 0;left: 0;right: 0;bottom: 0;content: '';background: rgba(250, 250, 250, 0.01);z-index: 1000;}.ace_dragging.ace_dark .ace_scroller:before{background: rgba(0, 0, 0, 0.01);}.ace_selecting, .ace_selecting * {cursor: text !important;}.ace_gutter {position: absolute;overflow : hidden;width: auto;top: 0;bottom: 0;left: 0;cursor: default;z-index: 4;-ms-user-select: none;-moz-user-select: none;-webkit-user-select: none;user-select: none;}.ace_gutter-active-line {position: absolute;left: 0;right: 0;}.ace_scroller.ace_scroll-left {box-shadow: 17px 0 16px -16px rgba(0, 0, 0, 0.4) inset;}.ace_gutter-cell {padding-left: 19px;padding-right: 6px;background-repeat: no-repeat;}.ace_gutter-cell.ace_error {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAABOFBMVEX/////////QRswFAb/Ui4wFAYwFAYwFAaWGAfDRymzOSH/PxswFAb/SiUwFAYwFAbUPRvjQiDllog5HhHdRybsTi3/Tyv9Tir+Syj/UC3////XurebMBIwFAb/RSHbPx/gUzfdwL3kzMivKBAwFAbbvbnhPx66NhowFAYwFAaZJg8wFAaxKBDZurf/RB6mMxb/SCMwFAYwFAbxQB3+RB4wFAb/Qhy4Oh+4QifbNRcwFAYwFAYwFAb/QRzdNhgwFAYwFAbav7v/Uy7oaE68MBK5LxLewr/r2NXewLswFAaxJw4wFAbkPRy2PyYwFAaxKhLm1tMwFAazPiQwFAaUGAb/QBrfOx3bvrv/VC/maE4wFAbRPBq6MRO8Qynew8Dp2tjfwb0wFAbx6eju5+by6uns4uH9/f36+vr/GkHjAAAAYnRSTlMAGt+64rnWu/bo8eAA4InH3+DwoN7j4eLi4xP99Nfg4+b+/u9B/eDs1MD1mO7+4PHg2MXa347g7vDizMLN4eG+Pv7i5evs/v79yu7S3/DV7/498Yv24eH+4ufQ3Ozu/v7+y13sRqwAAADLSURBVHjaZc/XDsFgGIBhtDrshlitmk2IrbHFqL2pvXf/+78DPokj7+Fz9qpU/9UXJIlhmPaTaQ6QPaz0mm+5gwkgovcV6GZzd5JtCQwgsxoHOvJO15kleRLAnMgHFIESUEPmawB9ngmelTtipwwfASilxOLyiV5UVUyVAfbG0cCPHig+GBkzAENHS0AstVF6bacZIOzgLmxsHbt2OecNgJC83JERmePUYq8ARGkJx6XtFsdddBQgZE2nPR6CICZhawjA4Fb/chv+399kfR+MMMDGOQAAAABJRU5ErkJggg==");background-repeat: no-repeat;background-position: 2px center;}.ace_gutter-cell.ace_warning {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAAmVBMVEX///8AAAD///8AAAAAAABPSzb/5sAAAAB/blH/73z/ulkAAAAAAAD85pkAAAAAAAACAgP/vGz/rkDerGbGrV7/pkQICAf////e0IsAAAD/oED/qTvhrnUAAAD/yHD/njcAAADuv2r/nz//oTj/p064oGf/zHAAAAA9Nir/tFIAAAD/tlTiuWf/tkIAAACynXEAAAAAAAAtIRW7zBpBAAAAM3RSTlMAABR1m7RXO8Ln31Z36zT+neXe5OzooRDfn+TZ4p3h2hTf4t3k3ucyrN1K5+Xaks52Sfs9CXgrAAAAjklEQVR42o3PbQ+CIBQFYEwboPhSYgoYunIqqLn6/z8uYdH8Vmdnu9vz4WwXgN/xTPRD2+sgOcZjsge/whXZgUaYYvT8QnuJaUrjrHUQreGczuEafQCO/SJTufTbroWsPgsllVhq3wJEk2jUSzX3CUEDJC84707djRc5MTAQxoLgupWRwW6UB5fS++NV8AbOZgnsC7BpEAAAAABJRU5ErkJggg==");background-position: 2px center;}.ace_gutter-cell.ace_info {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAAAAAA6mKC9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAJ0Uk5TAAB2k804AAAAPklEQVQY02NgIB68QuO3tiLznjAwpKTgNyDbMegwisCHZUETUZV0ZqOquBpXj2rtnpSJT1AEnnRmL2OgGgAAIKkRQap2htgAAAAASUVORK5CYII=");background-position: 2px center;}.ace_dark .ace_gutter-cell.ace_info {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAJFBMVEUAAAChoaGAgIAqKiq+vr6tra1ZWVmUlJSbm5s8PDxubm56enrdgzg3AAAAAXRSTlMAQObYZgAAAClJREFUeNpjYMAPdsMYHegyJZFQBlsUlMFVCWUYKkAZMxZAGdxlDMQBAG+TBP4B6RyJAAAAAElFTkSuQmCC");}.ace_scrollbar {position: absolute;right: 0;bottom: 0;z-index: 6;}.ace_scrollbar-inner {position: absolute;cursor: text;left: 0;top: 0;}.ace_scrollbar-v{overflow-x: hidden;overflow-y: scroll;top: 0;}.ace_scrollbar-h {overflow-x: scroll;overflow-y: hidden;left: 0;}.ace_print-margin {position: absolute;height: 100%;}.ace_text-input {position: absolute;z-index: 0;width: 0.5em;height: 1em;opacity: 0;background: transparent;-moz-appearance: none;appearance: none;border: none;resize: none;outline: none;overflow: hidden;font: inherit;padding: 0 1px;margin: 0 -1px;text-indent: -1em;-ms-user-select: text;-moz-user-select: text;-webkit-user-select: text;user-select: text;white-space: pre!important;}.ace_text-input.ace_composition {background: inherit;color: inherit;z-index: 1000;opacity: 1;text-indent: 0;}.ace_layer {z-index: 1;position: absolute;overflow: hidden;word-wrap: normal;white-space: pre;height: 100%;width: 100%;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;pointer-events: none;}.ace_gutter-layer {position: relative;width: auto;text-align: right;pointer-events: auto;}.ace_text-layer {font: inherit !important;}.ace_cjk {display: inline-block;text-align: center;}.ace_cursor-layer {z-index: 4;}.ace_cursor {z-index: 4;position: absolute;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;border-left: 2px solid;transform: translatez(0);}.ace_slim-cursors .ace_cursor {border-left-width: 1px;}.ace_overwrite-cursors .ace_cursor {border-left-width: 0;border-bottom: 1px solid;}.ace_hidden-cursors .ace_cursor {opacity: 0.2;}.ace_smooth-blinking .ace_cursor {-webkit-transition: opacity 0.18s;transition: opacity 0.18s;}.ace_editor.ace_multiselect .ace_cursor {border-left-width: 1px;}.ace_marker-layer .ace_step, .ace_marker-layer .ace_stack {position: absolute;z-index: 3;}.ace_marker-layer .ace_selection {position: absolute;z-index: 5;}.ace_marker-layer .ace_bracket {position: absolute;z-index: 6;}.ace_marker-layer .ace_active-line {position: absolute;z-index: 2;}.ace_marker-layer .ace_selected-word {position: absolute;z-index: 4;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;}.ace_line .ace_fold {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;display: inline-block;height: 11px;margin-top: -2px;vertical-align: middle;background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAJCAYAAADU6McMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJpJREFUeNpi/P//PwOlgAXGYGRklAVSokD8GmjwY1wasKljQpYACtpCFeADcHVQfQyMQAwzwAZI3wJKvCLkfKBaMSClBlR7BOQikCFGQEErIH0VqkabiGCAqwUadAzZJRxQr/0gwiXIal8zQQPnNVTgJ1TdawL0T5gBIP1MUJNhBv2HKoQHHjqNrA4WO4zY0glyNKLT2KIfIMAAQsdgGiXvgnYAAAAASUVORK5CYII="),url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAA3CAYAAADNNiA5AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACJJREFUeNpi+P//fxgTAwPDBxDxD078RSX+YeEyDFMCIMAAI3INmXiwf2YAAAAASUVORK5CYII=");background-repeat: no-repeat, repeat-x;background-position: center center, top left;color: transparent;border: 1px solid black;border-radius: 2px;cursor: pointer;pointer-events: auto;}.ace_dark .ace_fold {}.ace_fold:hover{background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAJCAYAAADU6McMAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJpJREFUeNpi/P//PwOlgAXGYGRklAVSokD8GmjwY1wasKljQpYACtpCFeADcHVQfQyMQAwzwAZI3wJKvCLkfKBaMSClBlR7BOQikCFGQEErIH0VqkabiGCAqwUadAzZJRxQr/0gwiXIal8zQQPnNVTgJ1TdawL0T5gBIP1MUJNhBv2HKoQHHjqNrA4WO4zY0glyNKLT2KIfIMAAQsdgGiXvgnYAAAAASUVORK5CYII="),url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAA3CAYAAADNNiA5AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAACBJREFUeNpi+P//fz4TAwPDZxDxD5X4i5fLMEwJgAADAEPVDbjNw87ZAAAAAElFTkSuQmCC");}.ace_tooltip {background-color: #FFF;background-image: -webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0.1));background-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.1));border: 1px solid gray;border-radius: 1px;box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);color: black;max-width: 100%;padding: 3px 4px;position: fixed;z-index: 999999;-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;cursor: default;white-space: pre;word-wrap: break-word;line-height: normal;font-style: normal;font-weight: normal;letter-spacing: normal;pointer-events: none;}.ace_folding-enabled > .ace_gutter-cell {padding-right: 13px;}.ace_fold-widget {-moz-box-sizing: border-box;-webkit-box-sizing: border-box;box-sizing: border-box;margin: 0 -12px 0 1px;display: none;width: 11px;vertical-align: top;background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAANElEQVR42mWKsQ0AMAzC8ixLlrzQjzmBiEjp0A6WwBCSPgKAXoLkqSot7nN3yMwR7pZ32NzpKkVoDBUxKAAAAABJRU5ErkJggg==");background-repeat: no-repeat;background-position: center;border-radius: 3px;border: 1px solid transparent;cursor: pointer;}.ace_folding-enabled .ace_fold-widget {display: inline-block;   }.ace_fold-widget.ace_end {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAANElEQVR42m3HwQkAMAhD0YzsRchFKI7sAikeWkrxwScEB0nh5e7KTPWimZki4tYfVbX+MNl4pyZXejUO1QAAAABJRU5ErkJggg==");}.ace_fold-widget.ace_closed {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAGCAYAAAAG5SQMAAAAOUlEQVR42jXKwQkAMAgDwKwqKD4EwQ26sSOkVWjgIIHAzPiCgaqiqnJHZnKICBERHN194O5b9vbLuAVRL+l0YWnZAAAAAElFTkSuQmCCXA==");}.ace_fold-widget:hover {border: 1px solid rgba(0, 0, 0, 0.3);background-color: rgba(255, 255, 255, 0.2);box-shadow: 0 1px 1px rgba(255, 255, 255, 0.7);}.ace_fold-widget:active {border: 1px solid rgba(0, 0, 0, 0.4);background-color: rgba(0, 0, 0, 0.05);box-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);}.ace_dark .ace_fold-widget {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHklEQVQIW2P4//8/AzoGEQ7oGCaLLAhWiSwB146BAQCSTPYocqT0AAAAAElFTkSuQmCC");}.ace_dark .ace_fold-widget.ace_end {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAH0lEQVQIW2P4//8/AxQ7wNjIAjDMgC4AxjCVKBirIAAF0kz2rlhxpAAAAABJRU5ErkJggg==");}.ace_dark .ace_fold-widget.ace_closed {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAFCAYAAACAcVaiAAAAHElEQVQIW2P4//+/AxAzgDADlOOAznHAKgPWAwARji8UIDTfQQAAAABJRU5ErkJggg==");}.ace_dark .ace_fold-widget:hover {box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);background-color: rgba(255, 255, 255, 0.1);}.ace_dark .ace_fold-widget:active {box-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);}.ace_fold-widget.ace_invalid {background-color: #FFB4B4;border-color: #DE5555;}.ace_fade-fold-widgets .ace_fold-widget {-webkit-transition: opacity 0.4s ease 0.05s;transition: opacity 0.4s ease 0.05s;opacity: 0;}.ace_fade-fold-widgets:hover .ace_fold-widget {-webkit-transition: opacity 0.05s ease 0.05s;transition: opacity 0.05s ease 0.05s;opacity:1;}.ace_underline {text-decoration: underline;}.ace_bold {font-weight: bold;}.ace_nobold .ace_bold {font-weight: normal;}.ace_italic {font-style: italic;}.ace_error-marker {background-color: rgba(255, 0, 0,0.2);position: absolute;z-index: 9;}.ace_highlight-marker {background-color: rgba(255, 255, 0,0.2);position: absolute;z-index: 8;}.ace_br1 {border-top-left-radius    : 3px;}.ace_br2 {border-top-right-radius   : 3px;}.ace_br3 {border-top-left-radius    : 3px; border-top-right-radius:    3px;}.ace_br4 {border-bottom-right-radius: 3px;}.ace_br5 {border-top-left-radius    : 3px; border-bottom-right-radius: 3px;}.ace_br6 {border-top-right-radius   : 3px; border-bottom-right-radius: 3px;}.ace_br7 {border-top-left-radius    : 3px; border-top-right-radius:    3px; border-bottom-right-radius: 3px;}.ace_br8 {border-bottom-left-radius : 3px;}.ace_br9 {border-top-left-radius    : 3px; border-bottom-left-radius:  3px;}.ace_br10{border-top-right-radius   : 3px; border-bottom-left-radius:  3px;}.ace_br11{border-top-left-radius    : 3px; border-top-right-radius:    3px; border-bottom-left-radius:  3px;}.ace_br12{border-bottom-right-radius: 3px; border-bottom-left-radius:  3px;}.ace_br13{border-top-left-radius    : 3px; border-bottom-right-radius: 3px; border-bottom-left-radius:  3px;}.ace_br14{border-top-right-radius   : 3px; border-bottom-right-radius: 3px; border-bottom-left-radius:  3px;}.ace_br15{border-top-left-radius    : 3px; border-top-right-radius:    3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px;}
+/*# sourceURL=ace/css/ace_editor.css */</style><style id="ace-tm">.ace-tm .ace_gutter {background: #f0f0f0;color: #333;}.ace-tm .ace_print-margin {width: 1px;background: #e8e8e8;}.ace-tm .ace_fold {background-color: #6B72E6;}.ace-tm {background-color: #FFFFFF;color: black;}.ace-tm .ace_cursor {color: black;}.ace-tm .ace_invisible {color: rgb(191, 191, 191);}.ace-tm .ace_storage,.ace-tm .ace_keyword {color: blue;}.ace-tm .ace_constant {color: rgb(197, 6, 11);}.ace-tm .ace_constant.ace_buildin {color: rgb(88, 72, 246);}.ace-tm .ace_constant.ace_language {color: rgb(88, 92, 246);}.ace-tm .ace_constant.ace_library {color: rgb(6, 150, 14);}.ace-tm .ace_invalid {background-color: rgba(255, 0, 0, 0.1);color: red;}.ace-tm .ace_support.ace_function {color: rgb(60, 76, 114);}.ace-tm .ace_support.ace_constant {color: rgb(6, 150, 14);}.ace-tm .ace_support.ace_type,.ace-tm .ace_support.ace_class {color: rgb(109, 121, 222);}.ace-tm .ace_keyword.ace_operator {color: rgb(104, 118, 135);}.ace-tm .ace_string {color: rgb(3, 106, 7);}.ace-tm .ace_comment {color: rgb(76, 136, 107);}.ace-tm .ace_comment.ace_doc {color: rgb(0, 102, 255);}.ace-tm .ace_comment.ace_doc.ace_tag {color: rgb(128, 159, 191);}.ace-tm .ace_constant.ace_numeric {color: rgb(0, 0, 205);}.ace-tm .ace_variable {color: rgb(49, 132, 149);}.ace-tm .ace_xml-pe {color: rgb(104, 104, 91);}.ace-tm .ace_entity.ace_name.ace_function {color: #0000A2;}.ace-tm .ace_heading {color: rgb(12, 7, 255);}.ace-tm .ace_list {color:rgb(185, 6, 144);}.ace-tm .ace_meta.ace_tag {color:rgb(0, 22, 142);}.ace-tm .ace_string.ace_regex {color: rgb(255, 0, 0)}.ace-tm .ace_marker-layer .ace_selection {background: rgb(181, 213, 255);}.ace-tm.ace_multiselect .ace_selection.ace_start {box-shadow: 0 0 3px 0px white;}.ace-tm .ace_marker-layer .ace_step {background: rgb(252, 255, 0);}.ace-tm .ace_marker-layer .ace_stack {background: rgb(164, 229, 101);}.ace-tm .ace_marker-layer .ace_bracket {margin: -1px 0 0 -1px;border: 1px solid rgb(192, 192, 192);}.ace-tm .ace_marker-layer .ace_active-line {background: rgba(0, 0, 0, 0.07);}.ace-tm .ace_gutter-active-line {background-color : #dcdcdc;}.ace-tm .ace_marker-layer .ace_selected-word {background: rgb(250, 250, 255);border: 1px solid rgb(200, 200, 250);}.ace-tm .ace_indent-guide {background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZgbYnAAAAE0lEQVQImWP4////f4bLly//BwAmVgd1/w11/gAAAABJRU5ErkJggg==") right repeat-y;}
+/*# sourceURL=ace/css/ace-tm */</style><style>    .error_widget_wrapper {        background: inherit;        color: inherit;        border:none    }    .error_widget {        border-top: solid 2px;        border-bottom: solid 2px;        margin: 5px 0;        padding: 10px 40px;        white-space: pre-wrap;    }    .error_widget.ace_error, .error_widget_arrow.ace_error{        border-color: #ff5a5a    }    .error_widget.ace_warning, .error_widget_arrow.ace_warning{        border-color: #F1D817    }    .error_widget.ace_info, .error_widget_arrow.ace_info{        border-color: #5a5a5a    }    .error_widget.ace_ok, .error_widget_arrow.ace_ok{        border-color: #5aaa5a    }    .error_widget_arrow {        position: absolute;        border: solid 5px;        border-top-color: transparent!important;        border-right-color: transparent!important;        border-left-color: transparent!important;        top: -5px;    }</style><style type="text/css">
+.sidebox-my-contest-history[data-v-5af24a22] {
+  overflow: hidden;
+}
+.sidebox-my-contest-record[data-v-5af24a22] {
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.sidebox-my-contest-record .pull-left[data-v-5af24a22] {
+    width: 38%;
+    color: #666;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.sidebox-my-contest-record .pull-right[data-v-5af24a22] {
+    width: 61%;
+}
+.sidebox-my-contest-record .challenge-meta-status[data-v-5af24a22] {
+    position: relative;
+    bottom: 1px;
+}
+.sidebox-record-time[data-v-5af24a22] {
+  display: inline-block;
+  margin-left: 4px;
+  color: #666;
+  font-size: 14px;
+}
+.sidebox-footer[data-v-5af24a22] {
+  text-align: right;
+}
+.sidebox-footer a[data-v-5af24a22] {
+    font-size: 14px;
+}
+</style><style type="text/css">
+.fade-enter-active[data-v-c6cc537a],
+.fade-leave-active[data-v-c6cc537a] {
+  transition: opacity .5s;
+}
+.fade-enter[data-v-c6cc537a],
+.fade-leave-active[data-v-c6cc537a] {
+  opacity: 0;
+}
+.header-message[data-v-c6cc537a] {
+  position: relative;
+}
+.header-message > a[data-v-c6cc537a] {
+  position: relative;
+  padding-top: 23px !important;
+}
+.header-message > a .icon[data-v-c6cc537a] {
+    width: 22px;
+}
+.popover[data-v-c6cc537a] {
+  display: block;
+  position: absolute;
+  top: 50px;
+  left: -66px;
+  width: 180px;
+  background: #fff;
+}
+.popover .msg-content[data-v-c6cc537a] {
+    padding: 8px;
+    font-size: 14px;
+    text-align: center;
+}
+.popover .msg-content a[data-v-c6cc537a] {
+      color: #f66;
+}
+.popover .msg-content a[data-v-c6cc537a]:focus, .popover .msg-content a[data-v-c6cc537a]:hover {
+        text-decoration: none;
+}
+.mark[data-v-c6cc537a] {
+  position: absolute;
+  top: 26px;
+  left: 26px;
+  padding: 0 5px;
+  color: #fff;
+  background: #f66;
+  font-size: 12px;
+  border-radius: 10px;
+  line-height: 16px;
+}
+@media (max-width: 768px) {
+.mark[data-v-c6cc537a] {
+    top: 14px;
+    right: calc(50% - 8px);
+}
+}
+</style><style type="text/css">
+.hidden[data-v-5fbd1bdc] {
+  display: none;
+}
+.show[data-v-5fbd1bdc] {
+  display: block;
+}
+.fade-enter-active[data-v-5fbd1bdc],
+.fade-leave-active[data-v-5fbd1bdc] {
+  transition: opacity 0.5s;
+}
+.fade-enter[data-v-5fbd1bdc],
+.fade-leave-active[data-v-5fbd1bdc] {
+  opacity: 0;
+}
+.header-userbox a[data-v-5fbd1bdc] {
+  display: block;
+  padding: 11px 0 11px 10px !important;
+}
+.header-avatar[data-v-5fbd1bdc] {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+.vip-icon[data-v-5fbd1bdc] {
+  position: absolute;
+  bottom: 5px;
+  right: calc(50% - 30px);
+  width: 20px;
+  height: 20px;
+}
+@media (min-width: 768px) {
+.vip-icon[data-v-5fbd1bdc] {
+    right: 0;
+}
+}
+.user[data-v-5fbd1bdc] {
+  display: block;
+  position: absolute;
+  top: 60px;
+  left: -140px;
+  width: 300px;
+  height: 300px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 4px 1px #ccc;
+  z-index: 999 !important;
+}
+.user[data-v-5fbd1bdc]:before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    right: 0;
+    width: 220px;
+    height: 50px;
+}
+.user.popover > .arrow[data-v-5fbd1bdc] {
+    left: 63%;
+}
+.user-info[data-v-5fbd1bdc] {
+  overflow: hidden;
+}
+.user-info a[data-v-5fbd1bdc] {
+    float: left;
+    padding: 0 !important;
+}
+.user-info a img[data-v-5fbd1bdc] {
+      width: 50px;
+      height: 50px;
+      margin-right: 10px;
+      border-radius: 50%;
+}
+.username[data-v-5fbd1bdc] {
+  position: relative;
+}
+.username > img[data-v-5fbd1bdc] {
+    width: 20px;
+    position: absolute;
+    left: -30px;
+    bottom: 5px;
+}
+.username > span[data-v-5fbd1bdc] {
+    display: inline-block;
+    max-width: 150px;
+    color: #666;
+    font-size: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+.username > span.user-level[data-v-5fbd1bdc] {
+      color: #fec42d;
+      font-size: 14px;
+      font-weight: 700;
+}
+.username > p[data-v-5fbd1bdc] {
+    color: #a4a4a4;
+    font-size: 12px;
+    margin-top: 10px;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 150px;
+    text-overflow: ellipsis;
+}
+.start-experiment[data-v-5fbd1bdc] {
+  margin-bottom: 10px;
+}
+.start-experiment > a[data-v-5fbd1bdc] {
+    display: inline-block;
+    width: 100%;
+    padding: 8px 0 !important;
+    margin: 10px 0;
+    background-color: #08bf91;
+    border-radius: 100px;
+    text-align: center;
+    font-size: 14px;
+    text-decoration: none;
+    color: #fff;
+}
+.start-experiment > a[data-v-5fbd1bdc]:hover, .start-experiment > a[data-v-5fbd1bdc]:focus {
+      text-decoration: none;
+      color: #fff;
+}
+.marked-words[data-v-5fbd1bdc] {
+  width: 100%;
+  color: #a4a4a4 !important;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
+  position: absolute;
+  top: 130px;
+  left: 0;
+}
+.marked-words > a[data-v-5fbd1bdc] {
+    color: #a4a4a4 !important;
+    font-size: 12px;
+    padding: 0 !important;
+}
+.marked-words > a[data-v-5fbd1bdc]:hover, .marked-words > a[data-v-5fbd1bdc]:focus {
+      text-decoration: none;
+      color: #a4a4a4;
+}
+.user-links a[data-v-5fbd1bdc] {
+  padding: 4px 0 !important;
+  margin-top: 15px;
+  color: #3a3a3a;
+  text-align: center;
+  border: solid 1px #ccc;
+  border-radius: 20px;
+}
+.user-links a.member-index[data-v-5fbd1bdc] {
+    color: #f66;
+    border-color: #f66;
+}
+.user-links a[data-v-5fbd1bdc]:hover {
+    text-decoration: none;
+}
+.user-links .log-out[data-v-5fbd1bdc] {
+  padding-top: 20px;
+}
+.user-links .log-out a[data-v-5fbd1bdc] {
+    border: none;
+    padding: 0 !important;
+    color: #a4a4a4;
+    text-align: right;
+}
+</style><style type="text/css">
+.header-learn-info[data-v-18d784ce] {
+  float: right;
+  width: 100%;
+  padding: 23.5px 10px;
+  margin: 0;
+  position: relative;
+}
+.header-learn-info > span[data-v-18d784ce] {
+    font-size: 16px;
+    color: #666;
+}
+.header-learn-info > span img[data-v-18d784ce] {
+      transform: rotate(-90deg);
+}
+.header-learn-info > span[data-v-18d784ce]:hover {
+      cursor: pointer;
+}
+.home-page[data-v-18d784ce] {
+  color: #666;
+}
+.home-page[data-v-18d784ce]:hover {
+    text-decoration: none;
+    color: #08bf91;
+}
+@media (min-width: 768px) {
+.header-learn-info[data-v-18d784ce] {
+    width: auto;
+}
+}
+@media (max-width: 1200px) {
+.header-learn-info[data-v-18d784ce] {
+    display: none;
+}
+}
+.fade-enter-active[data-v-18d784ce],
+.fade-leave-active[data-v-18d784ce] {
+  transition: opacity .5s;
+}
+.fade-enter[data-v-18d784ce],
+.fade-leave-active[data-v-18d784ce] {
+  opacity: 0;
+}
+.learninfo-box[data-v-18d784ce] {
+  display: block;
+  width: 223px;
+  margin-top: 60px;
+  margin-bottom: 20px;
+  padding: 20px;
+  left: 35px;
+  background: #fff;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.2);
+  border: none;
+}
+.learninfo-box .lab-running > span[data-v-18d784ce] {
+    font-size: 14px;
+    color: #a4a4a4;
+}
+.learninfo-box .lab-running .lab-running-name[data-v-18d784ce] {
+    font-size: 14px;
+    padding: 10px 0;
+}
+.learninfo-box .lab-running .lab-running-name > span[data-v-18d784ce] {
+      max-width: 60%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: inline-block;
+}
+.learninfo-box .lab-running .lab-running-name .lab-continue[data-v-18d784ce] {
+      background: #08bf91;
+      font-size: 12px;
+      color: #fff;
+      border: none;
+      padding: 2px 12px;
+      margin-top: -1px;
+}
+.learninfo-box .learn-records > span[data-v-18d784ce] {
+    font-size: 14px;
+    color: #a4a4a4;
+}
+.learninfo-box .learn-records .records-list[data-v-18d784ce] {
+    margin-top: 10px;
+}
+.learninfo-box .learn-records .records-list .record-item[data-v-18d784ce] {
+      display: inline-block;
+      font-size: 14px;
+      color: #666;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 10px;
+}
+.learninfo-box .learn-records .records-list .record-item[data-v-18d784ce]:hover {
+        text-decoration: none;
+        background-color: #f5f5f5;
+}
+.learninfo-box .learn-records .record-view-all[data-v-18d784ce] {
+    display: inline-block;
+    margin-top: 5px;
+    font-size: 12px;
+}
+.learninfo-box .learn-records .record-view-all[data-v-18d784ce]:hover {
+      text-decoration: none;
+}
+@media (min-width: 768px) {
+.learninfo-box[data-v-18d784ce] {
+    left: -30px;
+    margin-bottom: 0;
+}
+}
+</style><style type="text/css">
+.input-group[data-v-c93d05ca] {
+  position: relative;
+}
+ul[data-v-c93d05ca] {
+  position: absolute;
+  top: 33px;
+  z-index: 100;
+  width: calc(100% - 46px);
+  padding: 0;
+  color: #7f7f7f;
+  background: #fff;
+  font-size: 14px;
+  border: solid 1px #ccc;
+  list-style: none;
+}
+ul li[data-v-c93d05ca] {
+    padding: 5px 11px;
+    cursor: pointer;
+}
+ul li.active[data-v-c93d05ca] {
+      background: #eee;
+}
+</style><style type="text/css">
+.verificate-phone[data-v-e3ed07a8],
+.bind-phone[data-v-e3ed07a8],
+.verificate-email[data-v-e3ed07a8] {
+  text-align: center;
+  font-size: 16px;
+}
+.verificate-phone .title[data-v-e3ed07a8],
+  .bind-phone .title[data-v-e3ed07a8],
+  .verificate-email .title[data-v-e3ed07a8] {
+    color: #565656;
+}
+.verificate-phone .detail[data-v-e3ed07a8],
+  .bind-phone .detail[data-v-e3ed07a8],
+  .verificate-email .detail[data-v-e3ed07a8] {
+    text-align: center;
+    line-height: 80px;
+}
+.verificate-phone .detail .phone-num[data-v-e3ed07a8],
+    .verificate-phone .detail .email-address[data-v-e3ed07a8],
+    .bind-phone .detail .phone-num[data-v-e3ed07a8],
+    .bind-phone .detail .email-address[data-v-e3ed07a8],
+    .verificate-email .detail .phone-num[data-v-e3ed07a8],
+    .verificate-email .detail .email-address[data-v-e3ed07a8] {
+      vertical-align: middle;
+      margin-right: 12px;
+}
+.verificate-phone .detail button[data-v-e3ed07a8],
+    .bind-phone .detail button[data-v-e3ed07a8],
+    .verificate-email .detail button[data-v-e3ed07a8] {
+      border: none;
+      background: none;
+      outline: none;
+}
+.verificate-phone .detail .tip-send[data-v-e3ed07a8],
+    .bind-phone .detail .tip-send[data-v-e3ed07a8],
+    .verificate-email .detail .tip-send[data-v-e3ed07a8] {
+      color: #5bc6ab;
+}
+.verificate-phone .detail .tip-send .time[data-v-e3ed07a8],
+      .bind-phone .detail .tip-send .time[data-v-e3ed07a8],
+      .verificate-email .detail .tip-send .time[data-v-e3ed07a8] {
+        display: inline-block;
+        width: 20px;
+        text-align: left;
+}
+.verificate-phone .input-container[data-v-e3ed07a8],
+  .bind-phone .input-container[data-v-e3ed07a8],
+  .verificate-email .input-container[data-v-e3ed07a8] {
+    position: relative;
+}
+.verificate-phone .input-container input[data-v-e3ed07a8],
+    .bind-phone .input-container input[data-v-e3ed07a8],
+    .verificate-email .input-container input[data-v-e3ed07a8] {
+      margin: 0 auto;
+      width: 310px;
+}
+.verificate-phone .input-container .tip-right[data-v-e3ed07a8],
+    .bind-phone .input-container .tip-right[data-v-e3ed07a8],
+    .verificate-email .input-container .tip-right[data-v-e3ed07a8] {
+      position: absolute;
+      top: 0;
+      right: 78px;
+      line-height: 34px;
+      font-size: 12px;
+      color: #f66c6c;
+}
+.verificate-phone .input-container .tip-right i[data-v-e3ed07a8],
+      .bind-phone .input-container .tip-right i[data-v-e3ed07a8],
+      .verificate-email .input-container .tip-right i[data-v-e3ed07a8] {
+        margin-right: 6px;
+        vertical-align: -1px;
+        font-size: 16px;
+}
+.verificate-phone .input-container .tip[data-v-e3ed07a8],
+    .bind-phone .input-container .tip[data-v-e3ed07a8],
+    .verificate-email .input-container .tip[data-v-e3ed07a8] {
+      font-size: 12px;
+      line-height: 19px;
+      color: #f66c6c;
+}
+.verificate-phone .btn-container[data-v-e3ed07a8],
+  .bind-phone .btn-container[data-v-e3ed07a8],
+  .verificate-email .btn-container[data-v-e3ed07a8] {
+    margin-top: 30px;
+}
+.verificate-phone .btn-container .btn[data-v-e3ed07a8],
+    .bind-phone .btn-container .btn[data-v-e3ed07a8],
+    .verificate-email .btn-container .btn[data-v-e3ed07a8] {
+      width: 150px;
+      height: 36px;
+      vertical-align: bottom;
+      border-radius: 4px;
+}
+.verificate-phone .btn-container .btn-logout[data-v-e3ed07a8],
+    .bind-phone .btn-container .btn-logout[data-v-e3ed07a8],
+    .verificate-email .btn-container .btn-logout[data-v-e3ed07a8] {
+      font-size: 14px;
+      color: #a4a4a4;
+      text-decoration: none;
+}
+.verificate-phone .tip-send[data-v-e3ed07a8],
+  .verificate-phone button[data-v-e3ed07a8],
+  .bind-phone .tip-send[data-v-e3ed07a8],
+  .bind-phone button[data-v-e3ed07a8],
+  .verificate-email .tip-send[data-v-e3ed07a8],
+  .verificate-email button[data-v-e3ed07a8] {
+    vertical-align: middle;
+    cursor: pointer;
+}
+@media (max-width: 800px) {
+.verificate-phone[data-v-e3ed07a8],
+    .bind-phone[data-v-e3ed07a8],
+    .verificate-email[data-v-e3ed07a8] {
+      text-align: center;
+}
+.verificate-phone .identifying-code-container[data-v-e3ed07a8],
+      .bind-phone .identifying-code-container[data-v-e3ed07a8],
+      .verificate-email .identifying-code-container[data-v-e3ed07a8] {
+        text-align: center;
+}
+.verificate-phone .identifying-code-container button[data-v-e3ed07a8],
+        .bind-phone .identifying-code-container button[data-v-e3ed07a8],
+        .verificate-email .identifying-code-container button[data-v-e3ed07a8] {
+          margin-top: 10px;
+}
+.verificate-phone .identifying-code-container .bind-phone-code[data-v-e3ed07a8],
+        .bind-phone .identifying-code-container .bind-phone-code[data-v-e3ed07a8],
+        .verificate-email .identifying-code-container .bind-phone-code[data-v-e3ed07a8] {
+          margin: 0 !important;
+}
+.verificate-phone .phone-num-container[data-v-e3ed07a8],
+      .bind-phone .phone-num-container[data-v-e3ed07a8],
+      .verificate-email .phone-num-container[data-v-e3ed07a8] {
+        text-align: center;
+}
+.verificate-phone .phone-num-container span[data-v-e3ed07a8],
+        .bind-phone .phone-num-container span[data-v-e3ed07a8],
+        .verificate-email .phone-num-container span[data-v-e3ed07a8] {
+          display: block;
+}
+.verificate-phone input[data-v-e3ed07a8],
+      .bind-phone input[data-v-e3ed07a8],
+      .verificate-email input[data-v-e3ed07a8] {
+        width: 200px !important;
+}
+.verificate-phone .tip-right[data-v-e3ed07a8],
+      .bind-phone .tip-right[data-v-e3ed07a8],
+      .verificate-email .tip-right[data-v-e3ed07a8] {
+        position: unset !important;
+}
+.verificate-phone .tip-send[data-v-e3ed07a8],
+      .bind-phone .tip-send[data-v-e3ed07a8],
+      .verificate-email .tip-send[data-v-e3ed07a8] {
+        display: block !important;
+        margin-bottom: 50px;
+}
+}
+.bind-phone .input-container[data-v-e3ed07a8] {
+  width: 290px;
+  margin: 0 auto;
+  text-align: left;
+}
+.bind-phone .input-container .tip[data-v-e3ed07a8] {
+    position: unset;
+}
+.bind-phone .input-container .phone-num-container[data-v-e3ed07a8] {
+    margin-top: 38px;
+}
+.bind-phone .input-container .phone-num-container input[data-v-e3ed07a8] {
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 3px;
+}
+.bind-phone .input-container .identifying-code-container[data-v-e3ed07a8] {
+    position: relative;
+    margin-top: 7px;
+}
+.bind-phone .input-container .identifying-code-container .bind-phone-code[data-v-e3ed07a8] {
+      display: inline-block;
+      width: 157px;
+      margin: 0 15px 0 0;
+      vertical-align: middle;
+}
+.bind-phone .input-container .identifying-code-container button[data-v-e3ed07a8] {
+      width: 113px;
+      height: 35px;
+      vertical-align: middle;
+      border-radius: 4px;
+}
+.bind-phone .input-container .identifying-code-container .btn-disabled[data-v-e3ed07a8] {
+      pointer-events: none;
+      color: #fff;
+      background: #9ce5d3 !important;
+}
+.bind-phone .input-container .identifying-code-container .btn-disabled span[data-v-e3ed07a8] {
+        display: inline-block;
+        width: 30px;
+}
+.bind-phone .btn-container[data-v-e3ed07a8] {
+  margin-top: 20px;
+}
+.verificate-email .detail[data-v-e3ed07a8] {
+  margin-bottom: 20px;
+}
+.verificate-email .tip[data-v-e3ed07a8] {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  font-size: 14px;
+}
+.verificate-email .tip i[data-v-e3ed07a8] {
+    margin-right: 5px;
+    font-size: 18px;
+}
+.verificate-email .success[data-v-e3ed07a8] {
+  color: #08bf91;
+}
+.verificate-email .fail[data-v-e3ed07a8] {
+  color: #f66c6c;
+}
+</style><style type="text/css">
+.side-new-contest .sidebox-body[data-v-01dfed7f] {
+  overflow: hidden;
+}
+.side-new-contest .sidebox-body span[data-v-01dfed7f] {
+    position: relative;
+    top: 4px;
+    color: #3a3a3a;
+    font-size: 14px;
+}
+.side-new-contest .sidebox-body .btn[data-v-01dfed7f] {
+    padding: 2px 10px;
+    color: #08bf91;
+    font-size: 14px;
+    border: solid 1px #08bf91;
+}
+.side-new-contest .sidebox-body .btn[data-v-01dfed7f]:hover, .side-new-contest .sidebox-body .btn[data-v-01dfed7f]:focus {
+      color: #fff;
+      background: #09bf91;
+}
+</style><style type="text/css">
+.side-near-future-louplus .sidebox-body[data-v-b31614c6] {
+  overflow: hidden;
+}
+.side-near-future-louplus .sidebox-body a[data-v-b31614c6] {
+    text-decoration: none;
+}
+.side-near-future-louplus .sidebox-body a span[data-v-b31614c6]:nth-child(1) {
+      display: inline-block;
+      max-width: 135px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+}
+@media screen and (min-width: 1200px) {
+.side-near-future-louplus .sidebox-body a span[data-v-b31614c6]:nth-child(1) {
+          max-width: 180px;
+}
+}
+.side-near-future-louplus .sidebox-body span[data-v-b31614c6] {
+    position: relative;
+    top: 4px;
+    vertical-align: middle;
+    color: #3a3a3a;
+    font-size: 14px;
+}
+.side-near-future-louplus .sidebox-body .time[data-v-b31614c6] {
+    float: right;
+    color: orange;
+}
+</style><style type="text/css">
+.side-near-future-activity .sidebox-body[data-v-705cc82e] {
+  overflow: hidden;
+}
+.side-near-future-activity .sidebox-body a[data-v-705cc82e] {
+    text-decoration: none;
+}
+.side-near-future-activity .sidebox-body a span[data-v-705cc82e]:nth-child(2) {
+      display: inline-block;
+      max-width: 100px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+}
+@media screen and (min-width: 1200px) {
+.side-near-future-activity .sidebox-body a span[data-v-705cc82e]:nth-child(2) {
+          max-width: 135px;
+}
+}
+.side-near-future-activity .sidebox-body span[data-v-705cc82e] {
+    position: relative;
+    top: 4px;
+    vertical-align: middle;
+    color: #3a3a3a;
+    font-size: 14px;
+}
+.side-near-future-activity .sidebox-body .time[data-v-705cc82e] {
+    float: right;
+    color: orange;
+}
+</style><style type="text/css">
+.navbar-form[data-v-1e62109c] {
+  float: left !important;
+  padding: 10px 0;
+  margin: 8px 10px;
+}
+.form-group[data-v-1e62109c] {
+  position: relative;
+}
+label[data-v-1e62109c] {
+  display: inline;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  color: #3a3a3a;
+  font-size: 16px;
+}
+.form-control[data-v-1e62109c] {
+  width: 200px;
+  border-radius: 20px;
+}
+.search-autocomplete[data-v-1e62109c] {
+  position: absolute;
+  top: 35px;
+  left: 1px;
+  width: 195px;
+  padding: 4px;
+  text-align: left;
+  word-break: break-word;
+  border: solid 1px #ddd;
+  border-top: none;
+  background: #fff;
+  z-index: 1000;
+}
+.search-autocomplete a[data-v-1e62109c] {
+    display: block;
+    padding: 6px 8px;
+    color: #4c5157;
+    font-size: 13px;
+}
+.search-autocomplete a[data-v-1e62109c]:hover, .search-autocomplete a[data-v-1e62109c]:focus {
+      color: #fff;
+      background: #0c9;
+      text-decoration: none;
+}
+</style></head>
+
+    <body>
+        <div style="height:0;width:0;visibility:hidden">
+            <img src="./使用 Python 定制词云 - 实验楼_files/weixin_logo.png" alt="">
+        </div>
+
+        
+          
+          
+              
+          
+
+        
+            
+        
+
+        
+
+
+        <div class="content-box">
+        
+<style>
+.layout-fullscreen {
+    margin-top: -20px;
+}
+</style>
+<div class="layout layout-fullscreen">
+    <div class="container">
+        
+        
+    </div>
+    
+<div class="lab-btns">
+    
+        
+
+        
+            
+        
+
+        
+            
+        
+
+        
+        <div>
+            <img src="./使用 Python 定制词云 - 实验楼_files/best-study-way.png">
+            <a class=" member-vm lab-item-start  " data-mobile-url="/courses/756/labs/2521/document" data-url="/courses/start/2521" data-next="/courses/running">
+                <img src="./使用 Python 定制词云 - 实验楼_files/labdoc-start.png">
+                
+                    <span>开始<br>实验</span>
+                
+            </a>
+        </div>
+    
+    <div>
+        <a data-toggle="modal" href="https://www.shiyanlou.com/courses/756/labs/2521/document#askquestion">
+            <img src="./使用 Python 定制词云 - 实验楼_files/labdoc-question.png">
+            <span>我要<br>提问</span>
+        </a>
+    </div>
+    <div>
+        <a class="commit-error">
+            <img src="./使用 Python 定制词云 - 实验楼_files/labdoc-jiucuo.png">
+            <span>我要<br>纠错</span>
+        </a>
+    </div>
+</div>
+<div class="labdoc-header">
+    <a href="https://www.shiyanlou.com/courses/756">
+        <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+        使用 Python 定制词云
+    </a>
+    
+</div>
+<div class="labdoc-nav">
+    <div class="labdoc-nav-content">
+                <h2>
+                    <a href="https://www.shiyanlou.com/courses/756/labs/2521/document#labdoc-header-0">一、实验简介</a>
+                </h2>
+            
+                <h2>
+                    <a href="https://www.shiyanlou.com/courses/756/labs/2521/document#labdoc-header-1">二、实验原理</a>
+                </h2>
+            
+                <h2>
+                    <a href="https://www.shiyanlou.com/courses/756/labs/2521/document#labdoc-header-2">三、开发准备</a>
+                </h2>
+            
+                <h2>
+                    <a href="https://www.shiyanlou.com/courses/756/labs/2521/document#labdoc-header-3">四、实验步骤</a>
+                </h2>
+            
+                <h3>
+                    <a href="https://www.shiyanlou.com/courses/756/labs/2521/document#labdoc-header-4">4.1 简单测试</a>
+                </h3>
+            
+                <h3>
+                    <a href="https://www.shiyanlou.com/courses/756/labs/2521/document#labdoc-header-5">4.2 解决中文显示问题</a>
+                </h3>
+            
+                <h3>
+                    <a href="https://www.shiyanlou.com/courses/756/labs/2521/document#labdoc-header-6">4.3 定制词云</a>
+                </h3>
+            
+                <h2>
+                    <a href="https://www.shiyanlou.com/courses/756/labs/2521/document#labdoc-header-7">五、实验总结</a>
+                </h2>
+            
+                <h2>
+                    <a href="https://www.shiyanlou.com/courses/756/labs/2521/document#labdoc-header-8">六、课后习题</a>
+                </h2>
+            </div>
+    
+</div>
+<div class="labdoc-content-container">
+    <div class="markdown-body labdoc-content" id="labdoc-content"><div><h1 id="-python3-">使用 Python3 定制词云</h1>
+<h2 id="labdoc-header-0">一、实验简介</h2>
+<h4 id="1-1-">1.1 实验内容</h4>
+<p>在互联网时代，人们获取信息的途径多种多样，大量的信息涌入到人们的视线中。如何从浩如烟海的信息中提炼出关键信息，滤除垃圾信息，一直是现代人关注的问题。在这个信息爆炸的时代，我们每时每刻都要更新自己的知识储备，而网络是最好的学习平台。对信息过滤和处理能力强，学习效率就会得到提高。“词云”就是为此而诞生的。“词云”是对网络文本中出现频率较高的“关键词”予以视觉上的突出，形成“关键词云层”或“关键词渲染”，从而过滤掉大量的无意义信息，使浏览者只要一眼扫过词云图片就可以领略文章或者网页内容的主旨。不仅如此，一幅制作精美的词云图片，可以起到一图胜千言的效果，在报告或者<code>PPT</code>中适当的使用词云，会使表达更清晰充分，为演讲者表达的意义加分。本实验将使用<code>Python3</code>的<code>wordcloud</code>扩展包制作词云，生成图片保存。并介绍如何改进<code>wordcloud</code>扩展包使其能显示中文字符，最后介绍如何使用自己喜欢的图片定制词云图片轮廓。</p><h4 id="1-2-">1.2 实验知识点</h4>
+<ul>
+<li>制作词云的基本步骤和原理</li>
+<li><code>Python3</code>代码实现词云制作</li>
+<li><code>wordcloud</code>扩展包的使用</li>
+<li>使用自定义图片制作词云，分析《三体》I、 II、 III的关键词</li>
+</ul>
+<h4 id="1-3-">1.3 实验环境</h4>
+<p>该实验在<code>ubuntu14.04</code>下完成，由于<code>Python</code>具有跨平台特性，该实验的代码也可以运行于<code>Windows</code>和<code>Mac</code>系统上，只需要对字体部分做相应处理即可。</p><ul>
+<li><code>python3.5</code></li>
+<li><code>numpy 1.14.3</code></li>
+<li><code>matplotlib 2.2.2</code></li>
+<li><code>Pillow 5.1</code></li>
+<li><code>wordcloud 1.4.1</code></li>
+<li><code>python3-tk 3.5.1</code></li>
+</ul>
+<h4 id="1-4-">1.4 适合人群</h4>
+<p>本课程难度为一般，属于初级级别课程，适合具有<code>Python3</code>基础的用户，熟悉<code>python3</code>基础知识加深巩固。</p><h4 id="1-5-">1.5 代码获取</h4>
+<p>你可以通过下面命令将代码下载到实验楼环境中，作为参照对比进行学习。</p><pre><code class="hljs bash"><span class="hljs-variable">$ </span>wget <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/labfile.oss.aliyuncs.com/courses</span><span class="hljs-regexp">/756/simple</span>.py
+<span class="hljs-variable">$ </span>wget <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/labfile.oss.aliyuncs.com/courses</span><span class="hljs-regexp">/756/my</span>_word_cloud.py
+</code></pre><h2 id="labdoc-header-1">二、实验原理</h2>
+<p>词云的原理是对输入的文本数据进行词频统计，根据词汇出现频率的不同，按不同比例显示出词汇，生成图片。频率高的词汇显示的大，频率低的词汇显示的小。文本数据可以是本地数据，也可是爬虫动态从网络中获取的。</p><h2 id="labdoc-header-2">三、开发准备</h2>
+<p>打开<code>Xfce</code>终端，进入 <code>Code</code> 目录，创建 <code>work</code> 文件夹, 将其作为课程的工作目录。下载并安装实验需要的扩展包 。如果大家平时想在自己的电脑上进行实验，无论是<code>Windows</code>还是<code>Linux</code>还是<code>Mac</code>，都强烈推荐安装<code>Anaconda</code>,这是一个<code>Python</code>的科学计算包，里面几乎包含了常用的所有扩展包，不用自己费力安装了，该软件由<code>Python</code>之父带头维护,三个平台同时更新。</p><pre><code class="hljs bash">$ cd Code &amp;&amp; mkdir work &amp;&amp; cd work
+$ sudo apt-<span class="hljs-built_in">get</span> <span class="hljs-keyword">update</span>
+$ sudo pip3 install numpy
+$ sudo pip3 install matplotlib
+$ sudo apt-<span class="hljs-built_in">get</span> install libtiff5-<span class="hljs-built_in">dev</span> libjpeg8-<span class="hljs-built_in">dev</span> zlib1g-<span class="hljs-built_in">dev</span> \
+    libfreetype6-<span class="hljs-built_in">dev</span> liblcms2-<span class="hljs-built_in">dev</span> libwebp-<span class="hljs-built_in">dev</span> tcl8<span class="hljs-number">.6</span>-<span class="hljs-built_in">dev</span> tk8<span class="hljs-number">.6</span>-<span class="hljs-built_in">dev</span> python-tk  #安装Pillow依赖包
+$ sudo pip3 install Pillow
+$ sudo apt-<span class="hljs-built_in">get</span> install python3-tk
+</code></pre><p>下载小说《三体》I、 II、 III。</p><pre><code class="hljs bash"><span class="hljs-variable">$ </span>wget <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/labfile.oss.aliyuncs.com/courses</span><span class="hljs-regexp">/756/santi</span>.txt
+<span class="hljs-variable">$ </span>wget <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/labfile.oss.aliyuncs.com/courses</span><span class="hljs-regexp">/756/santi</span>2.txt
+<span class="hljs-variable">$ </span>wget <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/labfile.oss.aliyuncs.com/courses</span><span class="hljs-regexp">/756/santi</span>3.txt
+</code></pre><p>安装<code>wordcloud</code>扩展包。</p><pre><code class="hljs bash">$ sudo apt-get <span class="hljs-keyword">install</span> python3-dev
+$ sudo pip3 <span class="hljs-keyword">install</span> wordcloud
+</code></pre><h2 id="labdoc-header-3">四、实验步骤</h2>
+<p>本节将通过实践操作，带领大家使用 python3 定制词云。</p><h3 id="labdoc-header-4">4.1 简单测试</h3>
+<p>运行一个简单工程，测试扩展包安装是否正常</p><p>在对《三体》进行处理之前，我们先运行一下官方的示例程序，确保扩展包安装正常，程序能够正常工作。在<code>work</code>目录下新建<code>simple.py</code>文件：</p><pre><code class="hljs bash"><span class="hljs-meta">$</span><span class="bash"> <span class="hljs-built_in">cd</span> /home/shiyanlou/Code/work</span>
+<span class="hljs-meta">$</span><span class="bash"> touch simple.py</span>
+</code></pre><checker style="display: none">[{"name":"check if simple.py exist","script":"#!/bin/bash\nls /home/shiyanlou/Code/work/simple.py\n","error":"还没有在 /home/shiyanlou/Code/work/ 目录下创建 simple.py 文件"}]</checker><p>代码如下：</p><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python3</span>
+<span class="hljs-string">"""
+Minimal Example
+===============
+Generating a square wordcloud from the US constitution using default arguments.
+"""</span>
+
+<span class="hljs-keyword">from</span> os <span class="hljs-keyword">import</span> path
+<span class="hljs-keyword">from</span> wordcloud <span class="hljs-keyword">import</span> WordCloud
+
+d = path.dirname(__file__)
+
+<span class="hljs-comment"># Read the whole text.</span>
+text = open(path.join(d, <span class="hljs-string">'constitution.txt'</span>)).read()
+
+<span class="hljs-comment"># Generate a word cloud image</span>
+wordcloud = WordCloud().generate(text)
+
+<span class="hljs-comment"># Display the generated image:</span>
+<span class="hljs-comment"># the matplotlib way:</span>
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+plt.imshow(wordcloud)
+plt.axis(<span class="hljs-string">"off"</span>)
+
+<span class="hljs-comment"># lower max_font_size</span>
+wordcloud = WordCloud(max_font_size=<span class="hljs-number">40</span>).generate(text)
+plt.figure()
+plt.imshow(wordcloud)
+plt.axis(<span class="hljs-string">"off"</span>)
+plt.show()
+</code></pre><p>由代码可见，程序运行时会搜寻脚本所在的路径下的文本文件<code>“constitution.txt”</code>，所以我们在运行脚本前需要将这个文本放入<code>work</code>文件夹下面。
+通过下面的命令下载文本：</p><pre><code class="hljs bash"><span class="hljs-variable">$ </span>wget <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/labfile.oss.aliyuncs.com/courses</span><span class="hljs-regexp">/756/constitution</span>.txt
+</code></pre><p>运行脚本：</p><pre><code class="hljs bash">$ <span class="hljs-keyword">python3</span> simple.<span class="hljs-keyword">py</span>
+</code></pre><p>如果扩展包安装一切正常，程序将输出如下窗口：</p><p><img src="./使用 Python 定制词云 - 实验楼_files/wm" alt="4.1-1"></p><p>至此，我们得到了一个英文词云。</p><h3 id="labdoc-header-5">4.2 解决中文显示问题</h3>
+<p>我们已经成功安装了<code>wordcloud</code>扩展包，并成功运行了一个示例文件。但是这个示例文件有很多问题，首先，显示的是英文字符，在面对中国同事或者老板做报告和分享时，使用英文的词云明显不合适，而且很多文本本身就是中文词汇，没法制作成英文词云；词云的外轮廓显示的方方正正中规中矩，比较呆板，没有美感。以上问题，我们一一来解决。</p><p>首先，我们先解决中文显示的问题。
+我们先尝试一下，把一本小说输入到<code>simple.py</code>文件中并声明<code>gbk</code>编码，看看输出结果是什么样子的。我们只需要修改源文件成为下面这样，注意在文件头部要声明文件用<code>utf-8</code>编码：</p><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python3</span>
+<span class="hljs-comment">#-*- coding: utf-8 -*-</span>
+<span class="hljs-string">"""
+Minimal Example
+===============
+Generating a square wordcloud from the US constitution using default arguments.
+"""</span>
+
+<span class="hljs-keyword">from</span> os <span class="hljs-keyword">import</span> path
+<span class="hljs-keyword">from</span> wordcloud <span class="hljs-keyword">import</span> WordCloud
+
+d = path.dirname(__file__)
+
+<span class="hljs-comment"># Read the whole text.</span>
+<span class="hljs-comment">#text = open(path.join(d, 'constitution.txt')).read()</span>
+text = open(<span class="hljs-string">'santi.txt'</span>,<span class="hljs-string">'r'</span>,encoding=<span class="hljs-string">'gbk'</span>).read()
+
+<span class="hljs-comment"># Generate a word cloud image</span>
+wordcloud = WordCloud().generate(text)
+
+<span class="hljs-comment"># Display the generated image:</span>
+<span class="hljs-comment"># the matplotlib way:</span>
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+plt.imshow(wordcloud)
+plt.axis(<span class="hljs-string">"off"</span>)
+
+<span class="hljs-comment"># lower max_font_size</span>
+wordcloud = WordCloud(max_font_size=<span class="hljs-number">40</span>).generate(text)
+plt.figure()
+plt.imshow(wordcloud)
+plt.axis(<span class="hljs-string">"off"</span>)
+plt.show()
+</code></pre><p>运行代码得到的输出是这个样子的：</p><p><img src="./使用 Python 定制词云 - 实验楼_files/wm(1)" alt="4.2-1">
+<img src="./使用 Python 定制词云 - 实验楼_files/wm(2)" alt="4.2-2"></p><p>这怎么回事呢?
+仔细看图片中出现的都是框框，说明我们正确识别了汉字，但是汉字怎么显示成这样了呢?这是因为<code>wordcloud</code>没有找到用于显示汉字的字体啊！
+我们都知道<code>Ubuntu</code>是外国人搞出来的系统，所以对中文的支持肯定没有对英文那么好，尤其是字体什么的，更少了。而<code>wordcloud</code>也是个外国人开发的词云库，这俩货都没考虑到显示中文的问题。
+但是呢，既然<code>python</code>能显示中文，那么<code>wordcloud</code>就应该也可以的。我们来想想办法解决这个问题。
+仔细的看一下我们的代码，我们发现，生成词云的关键环节是这一句：</p><pre><code class="hljs python"><span class="hljs-attr">wordcloud</span> = WordCloud(max_font_size=<span class="hljs-number">40</span>).generate(text)
+</code></pre><p>我们仔细看看这个类，传给它的参数里有个关键参数：</p><pre><code class="hljs python">    font_path : <span class="hljs-built_in">string</span>
+        Font <span class="hljs-built_in">path to</span> <span class="hljs-keyword">the</span> font <span class="hljs-keyword">that</span> will be used (OTF <span class="hljs-keyword">or</span> TTF).
+        Defaults <span class="hljs-keyword">to</span> DroidSansMono path <span class="hljs-keyword">on</span> a Linux machine. If you are <span class="hljs-keyword">on</span>
+        another OS <span class="hljs-keyword">or</span> don't have this font, you need <span class="hljs-keyword">to</span> adjust this path.
+</code></pre><p>恩，我们发现可以指定一个字体文件给它，代替默认的字体显示词云。问题转化为我们要找一个<code>linux</code>下支持汉字的字体文件。我这边随手找了一个<code>ubuntu</code>系统中安装的字体<code>DroidSansFallbackFull.ttf</code>，为了防止在别的<code>linux</code>系统中没有这个字体而带来麻烦，干脆直接把字体文件放在<code>work</code>文件夹下让它跟着源文件走，这样就不会出现找不到的情况啦。
+通过下面的命令下载字体文件：</p><pre><code class="hljs bash"><span class="hljs-variable">$ </span>wget <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/labfile.oss.aliyuncs.com/courses</span><span class="hljs-regexp">/756/</span>DroidSansFallbackFull.ttf
+</code></pre><p>将字体文件放在<code>/home/shiyanlou/Code/work</code>目录下，然后修改源代码，首先找到我们自己的字体文件：</p><pre><code class="hljs python">import <span class="hljs-built_in">os</span>
+font=<span class="hljs-built_in">os</span>.<span class="hljs-built_in">path</span>.join(<span class="hljs-built_in">os</span>.<span class="hljs-built_in">path</span>.dirname(__file__), <span class="hljs-string">"DroidSansFallbackFull.ttf"</span>)
+</code></pre><p>然后在我们的源程序中，实例化<code>wordcloud</code>类的两个地方，指定<code>wordcloud</code>使用我们自己的字体文件：</p><pre><code class="hljs python">wordcloud = <span class="hljs-constructor">WordCloud(<span class="hljs-params">font_path</span>=<span class="hljs-params">font</span>)</span>.generate(text)
+wordcloud = <span class="hljs-constructor">WordCloud(<span class="hljs-params">font_path</span>=<span class="hljs-params">font</span>,<span class="hljs-params">max_font_size</span>=40)</span>.generate(text)
+</code></pre><p>好的，修改完以后我们再看一下执行效果：</p><p><img src="./使用 Python 定制词云 - 实验楼_files/wm(3)" alt="4.2-3">
+<img src="./使用 Python 定制词云 - 实验楼_files/wm(4)" alt="4.2-4"></p><p>OK,我们期望的目的达到了！</p><h3 id="labdoc-header-6">4.3 定制词云</h3>
+<p>我们经常在网上看到别人家的词云都是奇形怪状的，像下面这样：</p><p><img src="./使用 Python 定制词云 - 实验楼_files/wm(5)" alt="4.3-1"></p><p>所以看着我们自己方方正正的词云，是不是感觉太中规中矩了？都不好意思拿出手了吧？
+没关系，我们也可以做一个不规则边缘的词云！
+为了达到一个定制词云的效果，我们需要一个图片作为<code>mask</code>，这个<code>mask</code>的作用就是为我们的词云提供一个空间，让我们的词云只在这个空间里显示，这就达到了类似上面词云的效果。
+我们的<code>mask</code>图片是星球大战的士兵的头盔，长成这个样子：</p><p><img src="./使用 Python 定制词云 - 实验楼_files/wm(6)" alt="4.3-2"></p><p>做实验时请在这里下载：</p><pre><code class="hljs bash"><span class="hljs-variable">$ </span>wget <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/labfile.oss.aliyuncs.com/courses</span><span class="hljs-regexp">/756/stormtrooper</span>_mask.png
+</code></pre><p>为此，我们需要修改我们的代码，增加图片<code>mask</code>，修改后的代码如下：</p><pre><code class="hljs python">#!/usr/bin/python3
+#-*- coding: utf<span class="hljs-number">-8</span> -*-
+"""
+Using custom colors
+====================
+Using the recolor method and custom coloring functions.
+"""
+
+<span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np
+<span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image
+<span class="hljs-keyword">from</span> os <span class="hljs-keyword">import</span> <span class="hljs-type">path</span>
+<span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt
+<span class="hljs-keyword">import</span> random
+<span class="hljs-keyword">import</span> os
+
+<span class="hljs-keyword">from</span> wordcloud <span class="hljs-keyword">import</span> WordCloud, STOPWORDS
+
+
+font=os.path.<span class="hljs-keyword">join</span>(os.path.dirname(__file__), "DroidSansFallbackFull.ttf")
+
+def grey_color_func(word, font_size, position, orientation, random_state=<span class="hljs-keyword">None</span>, **kwargs):
+    <span class="hljs-keyword">return</span> "hsl(0, 0%%, %d%%)" % random.randint(<span class="hljs-number">60</span>, <span class="hljs-number">100</span>)
+
+d = <span class="hljs-type">path</span>.dirname(__file__)
+
+
+mask = np.<span class="hljs-keyword">array</span>(Image.<span class="hljs-keyword">open</span>(<span class="hljs-type">path</span>.<span class="hljs-keyword">join</span>(d, "stormtrooper_mask.png")))
+
+
+<span class="hljs-type">text</span> = <span class="hljs-keyword">open</span>(<span class="hljs-string">'santi.txt'</span>,<span class="hljs-string">'r'</span>,encoding=<span class="hljs-string">'gbk'</span>).<span class="hljs-keyword">read</span>()
+
+# preprocessing the <span class="hljs-type">text</span> a little <span class="hljs-type">bit</span>
+<span class="hljs-type">text</span> = <span class="hljs-type">text</span>.replace("程心说", "程心")
+<span class="hljs-type">text</span> = <span class="hljs-type">text</span>.replace("程心和", "程心")
+<span class="hljs-type">text</span> = <span class="hljs-type">text</span>.replace("程心问", "程心")
+
+# adding movie script specific stopwords
+stopwords = <span class="hljs-keyword">set</span>(STOPWORDS)
+stopwords.<span class="hljs-keyword">add</span>("int")
+stopwords.<span class="hljs-keyword">add</span>("ext")
+
+wc = WordCloud(font_path=font,max_words=<span class="hljs-number">2000</span>, mask=mask, stopwords=stopwords, margin=<span class="hljs-number">10</span>,
+               random_state=<span class="hljs-number">1</span>).generate(<span class="hljs-type">text</span>)
+# store <span class="hljs-keyword">default</span> colored image
+default_colors = wc.to_array()
+plt.title("Custom colors")
+plt.imshow(wc.recolor(color_func=grey_color_func, random_state=<span class="hljs-number">3</span>))
+wc.to_file("a_new_hope.png")
+plt.axis("off")
+plt.figure()
+plt.title("三体-词频统计")
+plt.imshow(default_colors)
+plt.axis("off")
+plt.<span class="hljs-keyword">show</span>()
+</code></pre><p>这段代码对词云的显示结果做了一点点修改，例如，“程心说”应该算是“程心”的词频，而不应该独立计算，所以程序中做了一个简单的替换。
+这段代码的运行结果如下：
+<img src="./使用 Python 定制词云 - 实验楼_files/wm(7)" alt="4.3-3">
+<img src="./使用 Python 定制词云 - 实验楼_files/wm(8)" alt="4.3-4"></p><p>我们使用了星球大战的武士的头盔作为词云形状，怎么样，看起来还不错吧？</p><p>然而，我们的任务并没有结束。我们说了要自己定制词云，那么就连这个mask图片也可以根据我们自己的喜好进行定制。
+为了在<code>ubuntu</code>下将我们喜欢的图片作为<code>mask</code>图片，我们需要安装<code>gimp</code>软件：</p><pre><code class="hljs bash">$ sudo apt-<span class="hljs-builtin-name">get</span> install gimp
+</code></pre><p>然后我随意上网百度了一个美女图片，就是下面这张：</p><p><img src="./使用 Python 定制词云 - 实验楼_files/wm(9)" alt="4.3-5"></p><p>请使用下面命令获取该美女图片的<code>jpg</code>格式：</p><pre><code class="hljs bash"><span class="hljs-variable">$ </span>wget <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/labfile.oss.aliyuncs.com/courses</span><span class="hljs-regexp">/756/</span><span class="hljs-number">04</span>.jpg
+</code></pre><p>图片有什么要求呢？恩，最好背景是纯色的，这样好处理，当然如果有<code>PS</code>高手帮忙的话，背景是什么也无所谓了。我们用<code>gimp</code>软件对这幅图片进行处理，把除了女孩之外的背景改为白色，就可以作为mask图片使用了。好下面我们动手开始制作。</p><p>在命令行中输入<code>gimp</code>就可以进入<code>gimp</code>界面：</p><p>首先，在图层页面下，右键这张图，增加<code>alpha</code>图层：</p><p><img src="./使用 Python 定制词云 - 实验楼_files/wm(10)" alt="4.3-6"></p><p>然后，使用左侧工具栏中的魔术棒工具，在这个姑娘身上随便画一下，就选中了这个姑娘：</p><p><img src="./使用 Python 定制词云 - 实验楼_files/wm(11)" alt="4.3-7"></p><p>然后，在空白区域，右键，编辑，使用白色作为背景颜色填充图片：</p><p><img src="./使用 Python 定制词云 - 实验楼_files/wm(12)" alt="4.3-8"></p><p>搞定之后，我们把图片导出来：</p><p><img src="./使用 Python 定制词云 - 实验楼_files/wm(13)" alt="4.3-9"></p><p>注意导出的时候选择<code>png</code>格式，如下设置:</p><p><img src="./使用 Python 定制词云 - 实验楼_files/wm(14)" alt="4.3-10"></p><p>然后我们就得到了这个mask图片。我将其重命名为<code>04.png</code>我们修改代码使用这个图片作为<code>mask</code>图片：</p><pre><code class="hljs python">mask = np.<span class="hljs-keyword">array</span>(Image.<span class="hljs-keyword">open</span>(<span class="hljs-type">path</span>.<span class="hljs-keyword">join</span>(d, "04.png")))
+</code></pre><p>请使用如下命令获取图片<code>04.png</code>：</p><pre><code class="hljs bash"><span class="hljs-variable">$ </span>wget <span class="hljs-symbol">http:</span>/<span class="hljs-regexp">/labfile.oss.aliyuncs.com/courses</span><span class="hljs-regexp">/756/</span><span class="hljs-number">04</span>.png
+</code></pre><p>再看我们的运行结果：</p><p><img src="./使用 Python 定制词云 - 实验楼_files/wm(15)" alt="4.3-11"></p><p><img src="./使用 Python 定制词云 - 实验楼_files/wm(16)" alt="4.3-12"></p><p>好的，至此我们就得到了定制的词云。</p><h2 id="labdoc-header-7">五、实验总结</h2>
+<p>我们使用<code>wordcloud</code>扩展包实现了定制词云，通过指定字体文件解决了<code>wordcloud</code>默认不能显示中文的问题，进一步，使用<code>gimp</code>软件实现了自定义<code>mask</code>图片的功能。最后，使用自定义的词云分析了小说《三体》的词频，制作了词云。</p><h2 id="labdoc-header-8">六、课后习题</h2>
+<p>在本实验中，只对《三体》I　进行了分析，同学们可以根据我提供的文本，为《三体》II、III制作词云，制作时注意把没有意义的副词都过滤掉。</p></div><div class="labdoc-copyright">*本课程内容，由作者授权实验楼发布，未经允许，禁止转载、下载及非法传播。</div></div>
+    
+    
+    
+</div>
+
+</div>
+
+
+        
+        
+
+        
+        
+        </div>
+
+        <div class="modal fade" id="flash-message" tabindex="-1" role="dialog">
+            <div class="modal-dialog" rolw="document">
+            </div>
+        </div>
+
+<!-- 1024 -->
+
+
+            <div class="modal modal-1024-result-success" id="modal-1024-result-success" tabindex="-1" aria-hidden="true" data-backdrop="static" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                    <button type="button" class="btn-close" data-dismiss="modal"></button>
+                                    <div class="message">
+                                        <img src="./使用 Python 定制词云 - 实验楼_files/msg-success.png" alt="">
+                                    </div>
+                                    <div class="coupon-desc">
+                                        <div class="title">优惠码</div>
+                                        <input class="code" readonly="readonly" type="text" value="">
+                                        <div class="coupon-desc-bottom">
+                                           <div class="range">适用范围：<span>购买标准会员</span></div>
+                                           <div class="time">截止日期：<span>2018-10-24 23:59:59</span></div>
+                                        </div>
+                                    </div>
+                                    <button class="copy">
+                                        复制并去使用
+                                    </button>
+                                    <button class="later-use" data-dismiss="modal">
+                                        稍后使用
+                                    </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal modal-1024-result-fail" id="modal-1024-result-fail" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                    <button type="button" class="btn-close" data-dismiss="modal"></button>
+                                    <div class="message">
+                                        <img src="./使用 Python 定制词云 - 实验楼_files/msg-fail.png" alt="">
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        <div class="modal fade" id="modal-message" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">注意</h4>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary confirm" data-dismiss="modal">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="new-loading new-loading-modal" id="new-loading-modal">
+            <div class="loading-wrapper">
+                <p class="loading-icon-lion">
+                    <img src="./使用 Python 定制词云 - 实验楼_files/icon_loading.png" alt="">
+                </p>
+                <div class="progress">
+                    <div class="progress-bar load-progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0;">
+                        <span class="sr-only">0% Complete</span>
+                    </div>
+                </div>
+              <p class="loading-txt">
+                    加载中，精彩就在后面...
+              </p>
+              <p class="progress-reload">
+                  <a href="javascript:;" type="button" class="btn-progress-reload" title="">卡住了？点击重试</a>
+              </p>
+            </div>
+        </div>
+
+        
+<div class="modal fade" id="start-newlab">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3>开始新实验</h3>
+			</div>
+			<div class="modal-body">
+                <p>一个实验正在进行，是否停止它，开始新实验？</p>
+			</div>
+			<div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <a class="btn btn-primary start-newlab-confirm">确定</a>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="start-evaluation-course">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3>开始评估课实验</h3>
+			</div>
+			<div class="modal-body">
+                <div>
+                    <p>为了让评估结果更加准确，请注意以下操作：</p>
+                    <ul>
+                        <li>完成实验后点击「停止实验」按钮</li>
+                        <li>将代码提交到代码库</li>
+                        <li>尽可能详尽的撰写实验报告</li>
+                        <li>尽可能在实验操作的关键步骤截图</li>
+                        <li>尽可能减少无用操作</li>
+                        <li>尽可能高效的利用内存/CPU资源</li>
+                    </ul>
+                    <p>评估课还在不断完善中，我们真挚希望你能通过我们提供的这个平台，找到更好的发展机会。</p>
+                </div>
+                <br>
+                <div class="start-newlab"></div>
+			</div>
+			<div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <a class="btn btn-primary start-confirm">确定</a>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="vip-startlab-modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4>请选择想使用的环境</h4>
+			</div>
+			<div class="modal-body">
+                <div class="start-newlab"></div>
+                
+                <div class="use-saved-vm">
+                    <button type="button" class="btn btn-primary col-lg-12 oldvm">已保存的环境</button>
+                    <small class="last-saved-vm">
+                        最近保存：Hbase rowkey设计
+                    </small>
+                </div>
+                
+                <div class="use-tmp-vm">
+                    <button type="button" class="btn btn-primary col-lg-12 newvm">该实验默认环境</button>
+                </div>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+
+
+<div class="modal fade askquestion-modal" id="askquestion" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">发帖</h4>
+            </div>
+            <div class="modal-body words-ctrl">
+                <form class="form-horizontal" action="https://www.shiyanlou.com/questions/">
+                    <input name="_csrf_token" type="hidden" value="IjY2YWNjNTRkZjAwN2YzNzVkZGU5NTMxYWM5ZGFmZTMwMzllYzQ5YjEi.D1oVmg.2ym5c_di0dAJhZJOKG-MClbbj84">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">标题</label>
+                        <div class="col-md-10">
+                            <input type="text" name="title" min="5" max="100" class="form-control syl-input" placeholder="至少输入5个字" value="">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">描述</label>
+                        <div class="col-md-10">
+                              
+<div class="tabpanel mkeditor">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="https://www.shiyanlou.com/courses/756/labs/2521/document#mkeditor-editor" role="tab" data-toggle="tab">编辑</a>
+        </li>
+        <li role="presentation">
+            <a class="mkeditor-btn-view" href="https://www.shiyanlou.com/courses/756/labs/2521/document#mkeditor-viewer" role="tab" data-toggle="tab">预览</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active mkeditor-editor" id="mkeditor-editor" role="tabpanel">
+            
+            <div class="btn-group" role="group">
+            
+                <button type="button" class="btn btn-default mkeditor-btn-bold">
+                    <i class="fa fa-bold"></i>
+                </button>
+                <button type="button" class="btn btn-default mkeditor-btn-italic">
+                    <i class="fa fa-italic"></i>
+                </button>
+                <button type="button" class="btn btn-default mkeditor-btn-link">
+                    <i class="fa fa-link"></i>
+                </button>
+                <button type="button" class="btn btn-default mkeditor-btn-quote">
+                    <i class="fa fa-quote-left"></i>
+                </button>
+                <button type="button" class="btn btn-default mkeditor-btn-code">
+                    <i class="fa fa-code"></i>
+                </button>
+                <button type="button" style="display: none;position: relative;outline: 0;" class="btn btn-default question-btn-img">
+                    <i class="fa fa-image"></i>
+                    <div class="img-btn-container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div type="button" class="btn btn-default screenshot-btn">
+                                    <i class="fa fa-cut"></i> 截取实验桌面
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="btn btn-default upload-image-btn">
+                                    <i class="fa fa-upload"></i> 上传本地图片
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </button>
+                <button id="mkeditor-pickfile" type="button" class="btn btn-default mkeditor-btn-img" style="z-index: 1;">
+                    <i class="fa fa-image"></i>
+                </button>
+                
+                <button type="button" class="btn btn-default mkeditor-btn-listol">
+                    <i class="fa fa-list-ol"></i>
+                </button>
+                <button type="button" class="btn btn-default mkeditor-btn-listul">
+                    <i class="fa fa-list-ul"></i>
+                </button>
+            <div id="html5_1d4rc56kf40jc0f1k8jfhfqi53_container" class="moxie-shim moxie-shim-html5" style="position: absolute; top: 0px; left: 0px; width: 0px; height: 0px; overflow: hidden; z-index: 0;"><input id="html5_1d4rc56kf40jc0f1k8jfhfqi53" type="file" style="font-size: 999px; opacity: 0; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;" multiple="" accept=""></div></div>
+            <div class="btn-group pull-right" role="group">
+                <a style="font-size:12px; color:#666; text-decoration:underline;" href="https://www.shiyanlou.com/questions/764" target="_blank">
+                    <i class="fa fa-question-circle"></i>Markdown 语法
+                </a>
+            </div>
+            <textarea name="content" class="form-control syl-input content" min="0" max="20000" placeholder="推荐使用 Markdown 语法，至少输入 5 个字"></textarea>
+            <div class="help-block"></div>
+        </div>
+        <div class="tab-pane mkeditor-viewer markdown-body" id="mkeditor-viewer" role="tabpanel">
+            <div></div>
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                    <div class="form-group" style="display:none;">
+                        <label class="col-md-2 control-label">板块</label>
+                        <div class="col-md-10">
+                            <div class="q-types" data-type="">
+                            </div>
+                        </div>
+                    </div>
+                      
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="bottom-link" style="display:none;color:#999;background:#FFFFFF;font-size:14px;;border:none;float:left;padding-left:0;">
+                    😀 若纠错被确认，您将得到 3 个实验豆作为奖励
+                    <a type="button" href="https://www.shiyanlou.com/questions/16351" target="_blank" style="color:#00CC99;">
+                        了解详情
+                    </a>
+                </span>
+                <button type="button" class="btn syl-btn-default no-bg" data-dismiss="modal">取消</button>
+                <button type="button" class="submit-question btn syl-btn-primary">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+        
+        
+        
+        
+        
+
+        
+        <div class="modal fade" id="invite-user" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">邀请好友，双方都可获赠实验豆！</h4>
+                    </div>
+                    <div class="modal-body">
+                        
+                        <div class="form-label">
+                            分享专属链接给好友，或粘贴到QQ群/微博/论坛，好友注册后，您和好友将分别获赠3个实验豆！
+                        </div>
+                        <input type="text" id="bstext" class="form-invite" value="https://www.shiyanlou.com/register?inviter=NTY0MzE5NjM2ODk4">
+                        
+                        <div id="msg-modal"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade invite-vip-modal" id="invite-vip-modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <img src="./使用 Python 定制词云 - 实验楼_files/invite-vip-title.png" style="width:100%;">
+                    </div>
+                    <div class="modal-body">
+                        <div class="invite-vip-content">好友输入你的邀请码开通会员后，您将获赠30天标准会员兑换卡一张，多邀多得。好友可享受30元优惠！</div>
+                        <div class="invite-vip-code">
+                            您的专属邀请码：<span>9469QDJ</span>
+                            <input style="position:fixed;left:10000px" type="text" id="copy-input" value="输入我的邀请码加入实验楼会员，可享受30元优惠！邀请码：9469QDJ。3000多个编程实验在线实践，开始学习：https://www.shiyanlou.com/vip">
+                            <button class="btn btn-primary invite-vip-copy" data-clipboard-target="#copy-input">复制</button>
+                            <div class="invite-vip-copied">
+                                复制成功！
+                            </div>
+                        </div>
+                        <div class="invite-vip-share">
+                            <span>或分享到</span>
+                            <a href="https://www.shiyanlou.com/courses/756/labs/2521/document#" class="invite-vip-weibo">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
+                                    <g fill="none" fill-rule="evenodd">
+                                        <circle cx="12.5" cy="12.5" r="12.5" fill="#F47166"></circle>
+                                        <path fill="#FFF" d="M11.811 18C8.601 18 6 16.403 6 14.434c0-1.97 3.897-5.08 5.387-5.08.626 0 1.852.444.994 1.848-.06.098 1.935-.816 3.026-.215 1.091.602 0 1.568 0 1.676 0 .107 2.19.107 2.19 1.77 0 1.97-2.576 3.567-5.786 3.567zm5.019-7.872c.678.58.391 1.611.391 1.611a.353.353 0 0 1-.338.28h-.22c-.161 0-.247-.119-.2-.264 0 0 .277-.639-.085-1.047-.361-.408-1.098-.314-1.098-.314a.268.268 0 0 1-.282-.263v-.057c0-.159.124-.294.276-.315 0 0 .879-.211 1.556.369zm1.265-1.16c1.242 1.117.843 3.088.843 3.088-.024.22-.244.413-.48.413h-.14c-.235 0-.397-.185-.36-.414 0 0 .317-1.24-.428-2.257-.745-1.017-2.495-.844-2.495-.844a.405.405 0 0 1-.412-.407v-.111c0-.237.185-.424.412-.429 0 0 1.818-.156 3.06.961zm-5.861 8.437c2.05-.288 3.568-1.55 3.39-2.817-.178-1.268-1.985-2.062-4.035-1.774-2.05.288-3.569 1.55-3.39 2.817.178 1.268 1.984 2.062 4.035 1.774zm-.367-.448c-1.22.237-2.36-.354-2.549-1.32-.188-.967.649-1.943 1.868-2.18 1.22-.237 2.361.354 2.549 1.32.188.967-.649 1.943-1.868 2.18zm-.243-2.166c.207 0 .375-.16.375-.357a.366.366 0 0 0-.375-.357.366.366 0 0 0-.375.357c0 .197.168.357.375.357zm-.72 1.079c.376-.175.579-.534.454-.802-.125-.268-.53-.343-.906-.168-.375.175-.578.534-.453.802.125.267.53.343.905.168z"></path>
+                                    </g>
+                                </svg>
+                            </a>
+                            <a href="https://www.shiyanlou.com/courses/756/labs/2521/document#" class="invite-vip-qq">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
+                                    <g fill="none" fill-rule="evenodd">
+                                        <circle cx="12.5" cy="12.5" r="12.5" fill="#76C1FF"></circle>
+                                        <path fill="#FFF" d="M8.293 11.189c-.061.17.028.277 0 .924-.008.174-.718.962-1 1.78-.279.812-.317 1.66.114 1.993.432.334.833-1.109.886-.9.022.092.051.188.085.286.138.393.37.828.706 1.235.068.083-.416.234-.706.756s.083 1.471 1.526 1.471c1.861 0 2.278-.692 2.315-.689.14.011.149 0 .296 0 .18 0 .105.016.272 0 .09-.008.995.829 2.247.69 2.134-.238 1.808-.994 1.64-1.472-.175-.498-.793-.731-.766-.763.512-.598.593-.964.766-1.513.071-.226.566 1.24.948.9.159-.143.476-.736.159-1.994-.318-1.257-.933-1.544-.92-1.78.029-.49.012-.835-.011-.924-.113-.432-.35-.337-.35-.432 0-2.49-1.77-4.507-3.953-4.507s-3.953 2.018-3.953 4.507c0 .197-.165.051-.301.432z"></path>
+                                    </g>
+                                </svg>
+                            </a>
+                            <a class="qq-zone invite-vip-qzone" href="https://www.shiyanlou.com/courses/756/labs/2521/document#">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25">
+                                    <g fill="none" fill-rule="evenodd">
+                                        <path fill="#FFDB59" d="M12.5 0C19.403 0 25 5.597 25 12.5S19.403 25 12.5 25 0 19.403 0 12.5 5.597 0 12.5 0"></path>
+                                        <path fill="#FFF" d="M12.5 17.417s-4.606 2.785-4.89 2.558c-.285-.228.934-5.418.934-5.418S4.419 11.14 4.588 10.72c.17-.42 5.468-.79 5.468-.79S12.023 5 12.5 5c.477 0 2.445 4.93 2.445 4.93s5.322.372 5.468.79c.145.417-3.956 3.837-3.956 3.837s.05.332.11.579c.004.017-1.916.06-3.489 0-.825-.03-1.82-.184-1.82-.184l4.553-3.23s-1.646-.295-3.31-.354c-1.824-.065-3.69.11-3.957.177-.168.042 1.178.038 2.714.176 1.076.098 2.491.355 2.491.355L9.196 15.45s1.95.117 3.698.105c1.969-.013 3.746-.256 3.757-.21.343 1.477.975 4.392.74 4.63-.32.325-4.89-2.557-4.89-2.557"></path>
+                                    </g>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        
+
+        <div class="modal fade" id="verificate-modal" data-backdrop="static" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-body">
+                  <div id="user-verificate">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <div id="base-data" data-flash="false" data-is-login="true" data-jwt-token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MjQyMjMiLCJpc3MiOiJzaGl5YW5sb3U6d2ViOmFwcCIsInVuYW1lIjoiZmFuY3lDaHVhbiIsImlzX2FkbWluIjpmYWxzZSwiZXhwIjoxNTUxNDg4NDEwLCJpYXQiOjE1NTE0MDIwMTB9.s45yxFCDQsAPq2qCUobRwm5dLUWJ9Xdq3sgfamg4k3g" data-user-id="624223" data-user-phone="18819477283" data-user-email="1247375074@qq.com" data-is-email-validated="True" data-is-jwt="true" data-socket-url="wss://comet.shiyanlou.com" data-msg-user="" data-msg-system="" data-invite-code="9469QDJ"></div>
+
+        <!-- 不带 CSS 的库 -->
+        <script async="" src="./使用 Python 定制词云 - 实验楼_files/analytics.js.下载"></script><script src="./使用 Python 定制词云 - 实验楼_files/polyfill.min.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/vendor.js.下载"></script>
+
+        <script src="./使用 Python 定制词云 - 实验楼_files/jquery.min.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/jquery.form.min.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/jquery.menu-aim.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/jquery.qrcode.min.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/html2canvas.min.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/jspdf.min.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/clipboard.min.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/qiniu.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/plupload.full.min.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/echarts.min.js.下载"></script>
+        <!-- 不带 CSS 的库 end -->
+
+        <!-- 带有 CSS 的库 -->
+        <script src="./使用 Python 定制词云 - 实验楼_files/bootstrap.min.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/bootstrap-switch.min.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/bootstrap-tour.min.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/bootstrap-table.min.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/bootstrap-table-zh-CN.min.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/bootstrap-table-filter-control.min.js.下载"></script>
+
+        <script src="./使用 Python 定制词云 - 实验楼_files/ace.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/video.min.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/videojs-flash.min.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/katex.min.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/highlight.min.js.下载"></script>
+        <!-- 带有 CSS 的库 end -->
+
+        <script src="./使用 Python 定制词云 - 实验楼_files/d3.min.js.下载"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/moment.min.js.下载" charset="utf-8"></script>
+        <script src="./使用 Python 定制词云 - 实验楼_files/calendar-heatmap.js.下载"></script>
+
+        <script src="./使用 Python 定制词云 - 实验楼_files/raven.min.js.下载" crossorigin="anonymous"></script>
+        <script>
+            Raven.config('https://7748db6c507a45cca1ba53ccb7dc0d51@sentry.shiyanlou.com/5', {
+                whitelistUrls: [/console/, /running/]
+            }).install();
+        </script>
+
+        
+        
+
+        
+<div id="jinja-data" data-qiniu-token-url="/api/qiniu/token" data-labid="2521" data-is-authenticated="true" data-tencent-labid="[877]" data-course-detail="/courses/756" data-left-time="0" data-course-id="756" data-userlab-id="None" data-question-form="/questions/meta" data-start-newlab-url="/courses/clear" data-courses-doc="/courses/labs/2521/document"></div>
+<script src="./使用 Python 定制词云 - 实验楼_files/labDoc.js.下载"></script><div class="showTimeOut" style="display: none; position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; background: rgba(0, 0, 0, 0.8); text-align: center; z-index: 1600;"><i class="fa fa-spinner fa-pulse" style="margin-top: 248.8px; color: rgb(255, 255, 255); font-size: 35px;"></i></div>
+
+
+
+        
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+     })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-89338452-1', 'auto');
+    ga('send', 'pageview');
+    </script>
+
+
+        <!-- 唯一作用：移动端的答题页面 -->
+        
+        
+    
+</body></html>
