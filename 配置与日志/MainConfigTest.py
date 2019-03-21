@@ -28,12 +28,19 @@ def testWrite():
 
 def testRead():
     """
-    2. 读配置
+    2. 读配置，跟dict的操作也一样
     """
     config = configparser.ConfigParser()
-    config.read("read.cfg")  # 任意后缀都可以
+    config.read("read-config-sample.cfg")  # 任意后缀都可以
+    print config.sections()
+    print config.keys()
 
+    # key/value中可以有多个值
+    print(config["Multiline Values"]['chorus'])
+    # 缩减
+    print(config['Sections Can Be Indented'].keys())
 
 
 if __name__ == "__main__":
-    testWrite()
+    # testWrite()
+    testRead()
