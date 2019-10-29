@@ -39,10 +39,6 @@ expr_ast = ast.parse(expr)
 
 
 class MyVisitor(ast.NodeVisitor):
-
-    def __init__(self):
-        super(MyVisitor, self).__init__()
-
     def visit(self, node):
         """Visit a node."""
         method = 'visit_' + node.__class__.__name__
@@ -62,23 +58,30 @@ class MyVisitor(ast.NodeVisitor):
         """Name类型的节点有三种属性"""
         print("visit name: ", node.id, node.ctx)
 
-    # def visit_Module(self, node):
-    #     """
-    #         Module类型的节点只有body一个属性，显示整个py文件整体结构情况
-    #         比如上面的代码得到的body如下：
-    #         [<_ast.Assign at 0x3abc550>,
-    #          <_ast.FunctionDef at 0x3abc5f8>,
-    #          <_ast.FunctionDef at 0x3abca20>,
-    #          <_ast.ClassDef at 0x3abcb00>,
-    #          <_ast.Assign at 0x3abcf98>,
-    #          <_ast.Expr at 0x3b7a0b8>,
-    #          <_ast.Expr at 0x3b7a198>]
-    #
-    #     """
-    #     return self.visit(node.body[0])
+    def visit_Module(self, node):
+        """
+            Module类型的节点只有body一个属性，显示整个py文件整体结构情况
+            比如上面的代码得到的body如下：
+            [<_ast.Assign at 0x3abc550>,
+             <_ast.FunctionDef at 0x3abc5f8>,
+             <_ast.FunctionDef at 0x3abca20>,
+             <_ast.ClassDef at 0x3abcb00>,
+             <_ast.Assign at 0x3abcf98>,
+             <_ast.Expr at 0x3b7a0b8>,
+             <_ast.Expr at 0x3b7a198>]
 
-    def visit_Assign(self, node):
-        node.id
+        """
+        super(MyVisitor, self).generic_visit(node)
+
+    def visit_Import(self, node):
+        ast_module = ast.Module()
+        ast_module.body = [node]
+        exec(compile(ast_module, '', 'exec'))
+
+    def visit_ImportFrom(self, node):
+        ast_module = ast.Module()
+        ast_module.body = [node]
+        exec (compile(ast_module, '', 'exec'))
 
 
 astpretty.pprint(expr_ast)
