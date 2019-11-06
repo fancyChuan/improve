@@ -32,4 +32,22 @@
         4.9 querySql(sql,**agrs)
         4.10 query_data(sql)
 
+    5. 全局语句也存在 db.query(sql) 和 x = db.query(sql) 两种类型
+
+Module
+    1. 先找到全局语句并执行
+        1.1 找到import语句并执行
+        1.2 Assign和Expr两种类型中，需要判断是否有执行sql
+
+    2. 访问函数定义节点
+        2.1 Assign和Expr两种类型中，需要判断是否有执行sql
+
+
+MySQLdb执行返回格式
+
+    cur.fetchall()     [(1,2,3,4), ...]
+    cur.description  [a,b,c,d]  字段描述
+
+    cur.fetchone()     [(1,2,3,4)]
+
 """
