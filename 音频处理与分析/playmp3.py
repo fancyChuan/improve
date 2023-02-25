@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 """
-@Author:   ZhangXieChuan
+@Author:   infree
 @Time:     2019/3/28 21:16
 @Contact:  1247375074@qq.com 
 @Software: PyCharm
@@ -60,4 +60,5 @@ def usingMp3Play(filepath): # 播放不了，报：指定的设备未打开，�
 if __name__ == "__main__":
     # usingPygame(mp3_file)
     # usingPyaudio(mp3_file)
-    usingMp3Play(r'E:\workshop\improve\audio\mp3\Ahxello-Infinity.mp3')
+    # usingMp3Play(r'E:\workshop\improve\audio\mp3\Ahxello-Infinity.mp3')
+    usingMp3Play(BASE_PATH + "/" + mp3_file)
